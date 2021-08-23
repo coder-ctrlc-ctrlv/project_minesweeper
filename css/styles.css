@@ -1,0 +1,61 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.wrap-game {
+    max-width: 600px;
+}
+
+.body__wrap-game {
+    margin: 0 auto;
+}
+
+.header {
+    background: #ffca20;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+}
+
+.header__column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 50%;
+}
+
+.header__image {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+}
+
+.header__image_flag {
+    background: url("../img/cells.png") left bottom -2px;
+}
+
+.header__image_clock {
+    background: url("../img/clock.png");
+    background-size: 100% auto;
+}
+
+.header__count {
+    display: inline-block;
+    background: #fff;
+    border: 1px solid #000;
+    width: 60px;
+    height: 30px;
+}
+
+.header__select {
+    height: 30px;
+    width: 200px;
+}
+
+.header__reset {
+    height: 30px;
+    width: 200px;
+}
