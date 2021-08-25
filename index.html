@@ -53,22 +53,22 @@
             #grid = [];
 
             constructor(lvl) {
-                this.#init(lvl);
-                this.#draw(lvl);
+                this.#initGrid(lvl);
+                this.#drawCellsDOM(lvl);
             }
 
             update(lvl) {
                 for (let row of document.querySelectorAll('.grid__row'))
                     row.remove();
-                    this.#init(lvl);
-                    this.#draw(lvl);
+                    this.#initGrid(lvl);
+                    this.#drawCellsDOM(lvl);
             }
 
             getCell(row, col) {
                 return this.#grid[row][col];
             }
 
-            #draw(lvl) {
+            #drawCellsDOM(lvl) {
                 let table, row, cell, div;
                 table = document.querySelector('.grid');
                 for(let i = 0; i < lvl.height; i++) {
@@ -83,14 +83,15 @@
                         else if (lvl.name === "hard") {
                             div.classList.add('grid__cell_size_small')
                         }
-                        cell = row.insertCell();
+						cell = row.insertCell();
                         cell.append(div);
+						this.#grid[i][j].addEvents(div);
                     }
                     table.append(row);
                 }
             }
 
-            #init(lvl) {
+            #initGrid(lvl) {
                 //fill array with objects ItemNull
                 this.#grid = [];
                 for (let i = 0; i < lvl.height; i++) {
@@ -113,18 +114,20 @@
                 //count ItemMines and create ItemNumber
                 let count;
                 for (let i = 0; i < lvl.height; i++) {
-                    for (let j = 0; j < lvl.width; j++) {
-                        count = this.#getCountMines(i, j, lvl);
-                        if (count !== 0)
-                            this.#grid[i][j] = new ItemNumber(count);
+					for (let j = 0; j < lvl.width; j++) {
+						if (this.#grid[i][j].constructor.name !== "ItemMine") {
+							count = this.#getCountMines(i, j, lvl);
+							if (count !== 0)
+								this.#grid[i][j] = new ItemNumber(count);
+						}
                     }
                 }
             }
 
             #getCountMines(row, col, lvl) {
                 let countMines = 0;
-                for (let i = row - 1; i < row + 1; i++) {
-                    for (let j = col - 1; j < col + 1; j++) {
+                for (let i = row - 1; i <= row + 1; i++) {
+                    for (let j = col - 1; j <= col + 1; j++) {
                         if (i < 0 || j < 0 || i === lvl.height || j === lvl.width ||
                             (i === row && j === col))
                             continue;
@@ -142,6 +145,7 @@
 
         class ItemGrid {
             clicked;
+			cellDOM;
 
             constructor() {
                 this.clicked = false;
@@ -154,6 +158,15 @@
             changeClicked() {
                 this.clicked = !this.clicked;
             }
+
+			addEvents(cell) {
+				this.cellDOM = cell;
+				this.cellDOM.addEventListener("click", function () {
+					let column = this.parentElement.cellIndex;
+					let row = this .parentElement.parentElement.rowIndex;
+					grid.getCell(row, column).open(this);
+				});
+			}
         }
 
         class ItemMine extends ItemGrid{
@@ -184,8 +197,8 @@
         let grid = new Grid(MEDIUM_LVL);
 
         let select = document.querySelector('.header__select');
-        select.addEventListener("change", function (){
-           switch (this.value) {
+        select.addEventListener("change", function () {
+			switch (this.value) {
                case "easy":
                    grid.update(EASY_LVL);
                    break;
@@ -198,18 +211,19 @@
            }
         });
 
-        let cells = document.querySelectorAll('.grid__cell');
-        for (let cell of cells) {
-            cell.addEventListener("click", function () {
-                let column = this.parentElement.cellIndex;
-                let row = this .parentElement.parentElement.rowIndex;
-                grid.getCell(row, column).open(this);
-            });
-        }
-
-        for (let cell of cells) {
-            cell.click();
-        }
+		document.querySelector(".header__reset-btn").addEventListener("click", function() {
+			switch (select.value) {
+               case "easy":
+                   grid.update(EASY_LVL);
+                   break;
+               case "medium":
+                   grid.update(MEDIUM_LVL)
+                   break;
+               case "hard":
+                   grid.update(HARD_LVL)
+                   break;
+           }
+		});
     </script>
 </body>
 </html>
