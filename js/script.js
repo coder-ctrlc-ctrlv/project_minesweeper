@@ -35,8 +35,13 @@ class TableDOM {
 			for (let j = 0; j < lvl.width; j++) {
 				cell = row.insertCell();
 				div = this.#createCellDiv(lvl);
-				div.addEventListener("click", function (event) { game.getFieldGame().openItemGame(i, j, event) })
-				div.addEventListener("contextmenu", function (event) { game.getFieldGame().changeStateFlag(i, j, event) })
+				div.addEventListener("click", function (event) {
+					game.getFieldGame().openItemGame(i, j, event.target);
+				})
+				div.addEventListener("contextmenu", function (event) {
+					game.getFieldGame().changeStateFlag(i, j, event.target);
+					event.preventDefault();
+				})
 				cell.append(div);
 			}
 			table.append(row);
@@ -60,30 +65,25 @@ class FieldGame {
 	}
 
 	//left button click
-	openItemGame(row, col, event) {
+	openItemGame(row, col, cellDOM) {
 		if (game.isBeginGame()) {
 			game.changeValueBeginGame();
 			this.reset(this.#level);
-			this.createMinesAndNumbers(row, col);
+			this.#createItemsMine(row, col);
+			this.#createItemsNumber();
 		}
 		if (!this.#field[row][col].isOpened() && !this.#field[row][col].isMarked()) {
 			this.#field[row][col].changeValueOpened();
-			this.#field[row][col].open(event.target);
+			this.#field[row][col].open(cellDOM);
 		}
 	}
 
 	//right button click
-	changeStateFlag(row, col, event) {
+	changeStateFlag(row, col, cellDOM) {
 		if (!this.#field[row][col].isOpened()) {
 			this.#field[row][col].changeValueMarked();
-			event.target.classList.toggle("grid__cell_flag");
+			cellDOM.classList.toggle("grid__cell_flag");
 		}
-		event.preventDefault();
-	}
-
-	createMinesAndNumbers(row_clicked, col_clicked) {
-		this.#createItemsMine(row_clicked, col_clicked);
-		this.#createItemsNumber();
 	}
 
 	#fillFieldWithItemNull() {
@@ -200,7 +200,16 @@ class ItemNull extends ItemGame {
 	}
 
 	open(cellDOM) {
+		let table = cellDOM.parentElement.parentElement.parentElement;
 		cellDOM.classList.add("grid__cell_null");
+		for (let i = this.row - 1; i <= this.row + 1; i++) {
+			for (let j = this.column - 1; j <= this.column + 1; j++) {
+				if (i < 0 || j < 0 || i === table.rows.length || j === table.rows[0].cells.length ||
+					(i === this.row && j === this.column))
+					continue;
+				table.rows[i].cells[j].firstElementChild.click();
+			}
+		}
 	}
 }
 
