@@ -2,11 +2,15 @@ class Game {
     #tableDOM;
     #fieldGame;
     #beginGame;
+    #endGame;
+    #controller;
 
     constructor() {
         this.#beginGame = true;
+        this.#endGame = false;
         this.#tableDOM = new TableDOM(MEDIUM_LVL);
         this.#fieldGame = new FieldGame(MEDIUM_LVL);
+        this.#controller = new Controller(MEDIUM_LVL);
     }
 
     getFieldGame() {
@@ -21,21 +25,36 @@ class Game {
         this.#beginGame = !this.#beginGame;
     }
 
-    createNewGame(lvlName) {
+    isEndGame() {
+        return this.#endGame;
+    }
+
+    changeValueEndGame() {
+        this.#endGame = !this.#endGame;
+    }
+
+    createNewGame(lvl) {
         this.#beginGame = true;
-        switch (lvlName) {
+        this.#endGame = false;
+        switch (lvl) {
             case "easy":
-                this.#tableDOM.update(EASY_LVL);
-                this.#fieldGame.reset(EASY_LVL);
+                this.#updateGame(EASY_LVL);
                 break;
             case "medium":
-                this.#tableDOM.update(MEDIUM_LVL);
-                this.#fieldGame.reset(MEDIUM_LVL);
+                this.#updateGame(MEDIUM_LVL);
                 break;
             case "hard":
-                this.#tableDOM.update(HARD_LVL);
-                this.#fieldGame.reset(HARD_LVL);
+                this.#updateGame(HARD_LVL);
+                break;
+            default:
+                this.#updateGame(lvl);
                 break;
         }
+    }
+
+    #updateGame(lvl) {
+        this.#tableDOM.update(lvl);
+        this.#fieldGame.reset(lvl);
+        this.#controller.initItemsGameEvents(lvl);
     }
 }

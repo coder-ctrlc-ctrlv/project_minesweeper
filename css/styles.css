@@ -12,24 +12,29 @@
 }
 
 .body {
-    background: #85E1FF;
+    background: url("../img/back.jpg") center / 100% auto;
+    background-color: #85E1FF;
 }
 
 .body__wrap-game {
-    margin: 150px auto;
+    margin: 50px auto;
 }
 
 .wrap-game {
-    max-width: 512px;
+    max-width: 640px;
+    box-shadow: 0 0 50px #000;
 }
 
 .header {
     background: linear-gradient(#0B7FA6, #21caff 7%, #21caff 93%, #0B7FA6);
+    border-bottom: 2px solid #000;
+    border-top: 2px solid #000;
+}
+
+.header__general-settings {
     height: 110px;
     display: flex;
     justify-content: space-evenly;
-    border-bottom: 2px solid #000;
-    border-top: 2px solid #000;
 }
 
 .header__column {
@@ -38,7 +43,7 @@
     justify-content: space-evenly;
 }
 
-.header__row-count {
+.header__row-counter {
     display: flex;
 }
 
@@ -63,9 +68,41 @@
     align-items: center;
 }
 
-.header__reset-btn:hover {
+.header__btn:hover {
     cursor: pointer;
     background: #BCEEFF;
+}
+
+.header__special-settings {
+    text-align: center;
+}
+
+.header__title {
+    text-decoration: underline;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.header__input-field {
+    width: 65px;
+}
+
+.header__input-fields {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header__label {
+    margin-left: 20px;
+}
+
+.header__label_margin-l_none {
+    margin-left: 0;
+}
+
+.header__btn_margin-tp {
+    margin: 15px auto 20px;
 }
 
 .wrap-game__grid {
@@ -77,78 +114,126 @@
 }
 
 .grid__cell {
-    width: 32px;
-    height: 32px;
-    background: url("../img/cells.png") right center;
-}
-
-.grid__cell_size_big {
-    width: 57px;
-    height: 57px;
-    background-size: 500% 300%;
-}
-
-.grid__cell_size_small {
-    width: 17px;
-    height: 17px;
-    background-size: 500% 300%;
+    background: url("../img/cells.png") right center / 500% 300%;
 }
 
 .grid__cell_mine {
-	background-image: url("../img/cells.png");
-	background-position: left -100% bottom;
+    background: url("../img/cells.png") left -100% bottom / 500% 300%;
 }
 
 .grid__cell_null {
-	background-image: url("../img/cells.png");
-	background-position: left top;
+    background: url("../img/cells.png") left top / 500% 300%;
 }
 
 .grid__cell_number_1 {
-	background-image: url("../img/cells.png");
-	background-position: left -100% top;
+    background: url("../img/cells.png") left -100% top / 500% 300%;
 }
 
 .grid__cell_number_2 {
-	background-image: url("../img/cells.png");
-	background-position: left -200% top;
+    background: url("../img/cells.png") left -200% top / 500% 300%;
 }
 
 .grid__cell_number_3 {
-	background-image: url("../img/cells.png");
-	background-position: left -300% top;
+    background: url("../img/cells.png") left -300% top / 500% 300%;
 }
 
 .grid__cell_number_4 {
-	background-image: url("../img/cells.png");
-	background-position: left -400% top;
+    background: url("../img/cells.png") left -400% top / 500% 300%;
 }
 
 .grid__cell_number_5 {
-	background-image: url("../img/cells.png");
-	background-position: left center;
+    background: url("../img/cells.png") left center / 500% 300%;
 }
 
 .grid__cell_number_6 {
-	background-image: url("../img/cells.png");
-	background-position: left -100% center;
+    background: url("../img/cells.png") left -100% center / 500% 300%;
 }
 
 .grid__cell_number_7 {
-	background-image: url("../img/cells.png");
-	background-position: left -200% center;
+    background: url("../img/cells.png") left -200% center / 500% 300%;
 }
 
 .grid__cell_number_8 {
-	background-image: url("../img/cells.png");
-	background-position: left -300% center;
+    background: url("../img/cells.png") left -300% center / 500% 300%;
 }
 
 .grid__cell_flag {
-	background-image: url("../img/cells.png");
-	background-position: left bottom;
+    background: url("../img/cells.png") left bottom / 500% 300%;
 }
 
 .grid__cell:hover {
     box-shadow: inset 0 0 20px #000;
 }
+
+.modal-window {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-window__inner {
+    background-color: #85E1FF;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%;
+    text-align: center;
+}
+
+.modal-window__close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.modal-window__close:hover {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-window__title {
+    font-size: 30px;
+    color: black;
+    margin-bottom: 10px;
+}
+
+.modal-window__img-main {
+    max-width: 100%;
+    height: auto;
+}
+
+.modal-window__img-retry {
+    height: 25px;
+    width: auto;
+}
+
+.modal-window__new-game-btn {
+    height: 30px;
+    width: 250px;
+    margin: 10px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+}
+
+.modal-window__new-game-btn:hover {
+    cursor: pointer;
+    background: #BCEEFF;
+}
+
+.modal-window__text-retry {
+    display: inline-block;
+    font-size: 18px;
+    color: black;
+    font-weight: normal;
+}
+

@@ -1,14 +1,10 @@
 class ItemGame {
     #opened;
     #marked;
-    row;
-    column;
 
-    constructor(row, col) {
+    constructor(marked) {
         this.#opened = false;
-        this.#marked = false;
-        this.row = row;
-        this.column = col;
+        this.#marked = marked;
     }
 
     isOpened() {

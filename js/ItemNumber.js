@@ -1,7 +1,8 @@
 class ItemNumber extends ItemGame {
     #numb;
-    constructor(row, col, num) {
-        super(row, col);
+
+    constructor(marked, num) {
+        super(marked);
         this.#numb = num;
     }
 

@@ -1,6 +1,6 @@
 class ItemMine extends ItemGame {
-    constructor(row, col) {
-        super(row, col);
+    constructor(marked) {
+        super(marked);
     }
 
     open(cellDOM) {
